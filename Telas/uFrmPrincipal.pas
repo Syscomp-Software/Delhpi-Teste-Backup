@@ -1,4 +1,4 @@
-unit uFrmPrincipal;
+ï»¿unit uFrmPrincipal;
 
 interface
 
@@ -74,7 +74,7 @@ type
       InputBoxMessage = WM_USER + 200;
 
       GOOGLE_DRIVE_CLIENT_ID = '584267529480-pibkdgbm0bkkej9pu66cugk81kqc27b1.apps.googleusercontent.com';
-      GOOGLE_DRIVE_CLIENT_SECRET = 'n3v_iZcxzriY0Dn02EwErknQ';
+      GOOGLE_DRIVE_CLIENT_SECRET = '';
       GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
 
     procedure LimparLog;
@@ -131,7 +131,7 @@ end;
 
 function TFrmPrincipal.CarregaUsuario: String;
 begin
-  Result := InputBox('Usuário', 'Informe o usuário', '');
+  Result := InputBox('Usuï¿½rio', 'Informe o usuÃ¡rio', '');
 end;
 
 function TFrmPrincipal.CarregaSenha: String;
@@ -264,7 +264,7 @@ begin
 
   Result := MessageDlg(LMensagemCompleta, TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) <> mrNone;
 
-  memLog.Lines.Add(Concat(LMensagemCompleta, ' : ', IfThen(Result, 'Sim', 'Não')));
+  memLog.Lines.Add(Concat(LMensagemCompleta, ' : ', IfThen(Result, 'Sim', 'NÃ£o')));
 end;
 
 procedure TFrmPrincipal.ProgressoZip(Sender: TObject; Progress: Byte; var Abort: Boolean);
@@ -281,7 +281,7 @@ procedure TFrmPrincipal.CarregaInformacoes;
 begin
   if (FUsuario <> '') and (FSenha <> '') then
   begin
-    if (MessageDlg('Deseja utilizar o usuário e senha anterior?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) <> mrNone) then
+    if (MessageDlg('Deseja utilizar o usuÃ¡rio e senha anterior?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) <> mrNone) then
       Exit;
   end;
 
