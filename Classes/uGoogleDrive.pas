@@ -441,6 +441,7 @@ begin
 
       Exit;
     end;
+    Exit;
   end;
 
   CriaArquivo(ADiretorioArquivoCompleto, AIdsPai);

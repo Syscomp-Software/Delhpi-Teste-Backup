@@ -62,6 +62,7 @@ type
     procedure SelecionaMenu(Sender: TObject);
     procedure Btn_FecharSubMenuClick(Sender: TObject);
     procedure Btn_ListarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     FBancoDados: TBancoDados;
     FZip: TZip;
@@ -131,13 +132,19 @@ end;
 
 function TFrmPrincipal.CarregaUsuario: String;
 begin
-  Result := InputBox('Usu�rio', 'Informe o usuário', '');
+  Result := InputBox('Usuário', 'Informe o usuário', '');
 end;
 
 function TFrmPrincipal.CarregaSenha: String;
 begin
   PostMessage(Handle, InputBoxMessage, 0, 0);
   Result := InputBox('Senha', 'Informe a senha', '');
+end;
+
+procedure TFrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if (Assigned(FGoogleDrive)) then
+    FGoogleDrive.Cancelar := True;
 end;
 
 procedure TFrmPrincipal.FormShow(Sender: TObject);
@@ -153,7 +160,7 @@ begin
 
   CarregaInformacoes;
 
-  FBancoDados := TBancoDados.Create(FUsuario, FSenha, 'c:\syscomp\');
+  FBancoDados := TBancoDados.Create(FUsuario, FSenha);
   FBancoDados.DiretorioCompletoArquivo := SelecionaDiretorio;
   FBancoDados.QuandoFalhar := MostraMensagem;
   FBancoDados.QuandoIniciar := QuandoIniciar;
@@ -168,7 +175,7 @@ begin
 
   CarregaInformacoes;
 
-  FBancoDados := TBancoDados.Create(FUsuario, FSenha, 'c:\syscomp\');
+  FBancoDados := TBancoDados.Create(FUsuario, FSenha);
   FBancoDados.DiretorioCompletoArquivo := SelecionaDiretorio;
   FBancoDados.QuandoFalhar := MostraMensagem;
   FBancoDados.QuandoIniciar := QuandoIniciar;
@@ -239,6 +246,8 @@ end;
 
 procedure TFrmPrincipal.MostraMensagem(AMensagem: String);
 begin
+  memLog.Lines.Add(FBancoDados.Comando);
+
   ShowMessage(AMensagem);
 end;
 
