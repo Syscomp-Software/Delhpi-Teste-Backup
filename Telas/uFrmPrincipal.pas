@@ -1,4 +1,4 @@
-Ôªøunit uFrmPrincipal;
+unit uFrmPrincipal;
 
 interface
 
@@ -62,7 +62,6 @@ type
     procedure SelecionaMenu(Sender: TObject);
     procedure Btn_FecharSubMenuClick(Sender: TObject);
     procedure Btn_ListarClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     FBancoDados: TBancoDados;
     FZip: TZip;
@@ -75,7 +74,7 @@ type
       InputBoxMessage = WM_USER + 200;
 
       GOOGLE_DRIVE_CLIENT_ID = '584267529480-pibkdgbm0bkkej9pu66cugk81kqc27b1.apps.googleusercontent.com';
-      GOOGLE_DRIVE_CLIENT_SECRET = '';
+      GOOGLE_DRIVE_CLIENT_SECRET = 'n3v_iZcxzriY0Dn02EwErknQ';
       GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
 
     procedure LimparLog;
@@ -132,19 +131,13 @@ end;
 
 function TFrmPrincipal.CarregaUsuario: String;
 begin
-  Result := InputBox('Usu√°rio', 'Informe o usu√°rio', '');
+  Result := InputBox('Usu·rio', 'Informe o usu·rio', '');
 end;
 
 function TFrmPrincipal.CarregaSenha: String;
 begin
   PostMessage(Handle, InputBoxMessage, 0, 0);
   Result := InputBox('Senha', 'Informe a senha', '');
-end;
-
-procedure TFrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  if (Assigned(FGoogleDrive)) then
-    FGoogleDrive.Cancelar := True;
 end;
 
 procedure TFrmPrincipal.FormShow(Sender: TObject);
@@ -160,7 +153,7 @@ begin
 
   CarregaInformacoes;
 
-  FBancoDados := TBancoDados.Create(FUsuario, FSenha);
+  FBancoDados := TBancoDados.Create(FUsuario, FSenha, 'c:\syscomp\');
   FBancoDados.DiretorioCompletoArquivo := SelecionaDiretorio;
   FBancoDados.QuandoFalhar := MostraMensagem;
   FBancoDados.QuandoIniciar := QuandoIniciar;
@@ -175,7 +168,7 @@ begin
 
   CarregaInformacoes;
 
-  FBancoDados := TBancoDados.Create(FUsuario, FSenha);
+  FBancoDados := TBancoDados.Create(FUsuario, FSenha, 'c:\syscomp\');
   FBancoDados.DiretorioCompletoArquivo := SelecionaDiretorio;
   FBancoDados.QuandoFalhar := MostraMensagem;
   FBancoDados.QuandoIniciar := QuandoIniciar;
@@ -246,8 +239,6 @@ end;
 
 procedure TFrmPrincipal.MostraMensagem(AMensagem: String);
 begin
-  memLog.Lines.Add(FBancoDados.Comando);
-
   ShowMessage(AMensagem);
 end;
 
@@ -273,7 +264,7 @@ begin
 
   Result := MessageDlg(LMensagemCompleta, TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) <> mrNone;
 
-  memLog.Lines.Add(Concat(LMensagemCompleta, ' : ', IfThen(Result, 'Sim', 'N√£o')));
+  memLog.Lines.Add(Concat(LMensagemCompleta, ' : ', IfThen(Result, 'Sim', 'N„o')));
 end;
 
 procedure TFrmPrincipal.ProgressoZip(Sender: TObject; Progress: Byte; var Abort: Boolean);
@@ -290,7 +281,7 @@ procedure TFrmPrincipal.CarregaInformacoes;
 begin
   if (FUsuario <> '') and (FSenha <> '') then
   begin
-    if (MessageDlg('Deseja utilizar o usu√°rio e senha anterior?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) <> mrNone) then
+    if (MessageDlg('Deseja utilizar o usu·rio e senha anterior?', TMsgDlgType.mtConfirmation, [mbYes, mbNo], 0) <> mrNone) then
       Exit;
   end;
 

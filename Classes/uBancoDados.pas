@@ -30,7 +30,6 @@ type
     FFuncaoSubstituir: TQuandoSubstituirEvento;
     FTipoExecucao: TTipoExecucao;
     FExecutando: Boolean;
-    FComando: String;
 
     type
       TThreadComando = class(TThread)
@@ -98,7 +97,6 @@ type
     property QuandoSubstituir: TQuandoSubstituirEvento read FFuncaoSubstituir write FFuncaoSubstituir;
     property NomeProcessoExecutar: String read BuscaNomeExecutar;
     property EmExecucao: Boolean read FExecutando;
-    property Comando: String read FComando;
 
     procedure Backup;
     procedure Restore;
@@ -321,6 +319,7 @@ end;
 
 procedure TBancoDados.Executar();
 var
+  LComando,
   LNomeArquivo: String;
 begin
   try
@@ -346,10 +345,10 @@ begin
     ExecutaFuncaoIniciar(FTipoExecucao);
 
     // cria comando
-    FComando := PreparaComando(BuscaComandoPorTipo, LNomeArquivo);
+    LComando := PreparaComando(BuscaComandoPorTipo, LNomeArquivo);
 
     // executa comando
-    TThreadComando.Create(FComando, ExecutaFuncaoFalha,
+    TThreadComando.Create(LComando, ExecutaFuncaoFalha,
     procedure
     begin
       if not(ValidaLog(MontaDiretorioLogcompleto(LNomeArquivo))) then
